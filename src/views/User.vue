@@ -69,47 +69,5 @@ export default {
 </script>
 
 <style scoped>
-.name {
-  color: #009688;
-  font-weight: 700;
-  font-size: 24px;
-}
 
-.timer {
-  display: flex;
-  justify-content: space-around;
-  width: 60%;
-  margin: 1rem 0;
-}
-
-main {
-  background-color: #f8f8f8;
-}
-
-main>img {
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-  margin: 1rem 0;
-}
-
-.info_list {
-  flex: 1;
-  width: 100%;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-  border-top: 1px solid #009688;
-}
-
-.icon {
-  color: #009688;
-}
-
-.count {
-  background-color: #009688;
-  color: #fff;
-  padding: 0.1rem 0.6rem;
-  border-radius: 0.2rem;
-  margin-top: 2rem;
-}
 </style>

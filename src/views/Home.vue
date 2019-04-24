@@ -31,13 +31,13 @@
             </router-link>
             <v-divider></v-divider>
           </div>
-          <div class="text-xs-center" style="margin-top:20px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="0">
-            <v-progress-circular :value="loading" color="primary" indeterminate></v-progress-circular>
-          </div>
         </v-list>
       </v-card>
     </v-flex>
   </v-layout>
+  <div class="text-xs-center text-md-center" style="padding-top:30px;padding-bottom:80px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="0">
+    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+  </div>
 </div>
 </template>
 
@@ -58,10 +58,10 @@ export default {
           tag: 'good',
           title: "精华"
         },
-        {
-          tag: 'weex',
-          title: "weex"
-        },
+        // {
+        //   tag: 'weex',
+        //   title: "weex"
+        // },
         {
           tag: 'share',
           title: '分享'

@@ -1,46 +1,79 @@
 <template>
 <div class="content">
-  <mu-tabs class="tabs box-shadow" :value="activeTab" @change="handleTabChange">
-    <mu-tab value="unread" title="未读消息" />
-    <mu-tab value="readed" title="已读消息" />
-  </mu-tabs>
-  <div class="tab-content" style=" position: relative;">
-    <!-- 未读消息列表 -->
-    <ul v-if="accesstoken" class="lists" v-show="activeTab === 'unread'">
-      <router-link :to="{path:'/content',query:{id:item.topic.id}}" tag="li" class="list" v-for="item in unread_messages" :key="item.id">
-        <div class="user">
+  <v-tabs color="cyan" v-model="active" :value="activeTab" grow dark slider-color="yellow">
+    <v-layout>
+      <v-tab ripple v-for="(item,index) in tabs" :key="index" @change="handleTabChange(item.tag)">{{ item.title }}</v-tab>
+    </v-layout>
+  </v-tabs>
+  <!--登录提示-->
+  <v-layout row justify-center>
+    <v-dialog v-model="dialog" max-width="600">
+      <v-card>
+        <v-card-title class="headline">提示信息</v-card-title>
+        <v-card-text>请先登录</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" to="/">取消</v-btn>
+          <v-btn color="green darken-1" flat="flat" to="/person">确定</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-layout>
+  <!-- 未读消息列表 -->
+    <v-layout wrap row v-if="accesstoken" v-show="activeTab === 'unread'">
+      <v-flex xs3 sm3 v-for="(item,index) in unread_messages" :key="index">
+        <v-card>
           <img :src="item.author.avatar_url" alt="user">
-          <span>{{item.author.loginname}}</span>
-        </div>
-        <div class="message_content">
-          <h2 v-html="markdownChange(item.reply.content)"></h2>
-          <p>来自：《{{item.topic.title}}》</p>
-        </div>
-        <div class="msg_timer">
-          <span>{{item.reply.create_at | time_ago}}</span>
-        </div>
-      </router-link>
-      <li v-if="!unread_messages.length">暂无消息</li>
-    </ul>
-    <!-- 已读消息列表 -->
-    <ul v-if="accesstoken" class="lists" v-show="activeTab === 'readed'">
-      <router-link :to="{path:'/content',query:{id:item.topic.id}}" tag="li" class="list" v-for="item in readed_messages" :key="item.id">
-        <div class="user">
-          <img :src="item.author.avatar_url" alt="user">
-          <span>{{item.author.loginname}}</span>
-        </div>
-        <div class="message_content">
-          <h2 v-if="item.reply.content" v-html="markdownChange(item.reply.content)"></h2>
-          <h2 v-if="!item.reply.content">此内容已被作者删除</h2>
-          <p>来自：《{{item.topic.title}}》</p>
-        </div>
-        <div v-if="item.reply.content" class="timer">
-          <span>{{item.reply.create_at | time_ago}}</span>
-        </div>
-      </router-link>
-      <li v-if="!readed_messages.length">暂无消息</li>
-    </ul>
-  </div>
+          <v-card-title primary-title>
+            <div>
+              <p class="text-md-center">{{ item.author.loginname }}</p>
+              <!-- <h2 v-if="item.reply.content" v-html="markdownChange(item.reply.content)"></h2> -->
+              <!-- <h2 class="text-md-center" v-if="!item.reply.content">此内容已被作者删除</h2> -->
+              <p class="text-md-center">来自：《{{item.topic.title}}》</p>
+              <span>{{item.reply.create_at | time_ago}}</span>
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn block :to="{path:'/content',query:{id:item.topic.id}}" color="info">查看</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout v-if="accesstoken" class="lists" v-show="activeTab === 'unread'">
+      <v-flex row>
+        <p class="text-md-center text-xs-center" v-if="!unread_messages.length">暂无消息</p>
+      </v-flex>
+    </v-layout>
+  <!-- 已读消息列表 -->
+  <v-layout row v-if="accesstoken" v-show="activeTab === 'readed'">
+    <v-flex xs12 sm12>
+      <v-card>
+        <v-list subheader two-line>
+          <div v-for="(item,index) in readed_messages" :key="index">
+            <v-list-tile>
+              <v-list-tile-avatar>
+                <img :src="item.author.avatar_url" alt="user">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title v-html="item.author.loginname"></v-list-tile-title>
+                <!-- <h2 v-if="item.reply.content" v-html="markdownChange(item.reply.content)"></h2> -->
+                <!-- <h2 class="text-md-center" v-if="!item.reply.content">此内容已被作者删除</h2> -->
+                <p class="text-md-center">来自：《{{item.topic.title}}》</p>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn block :to="{path:'/content',query:{id:item.topic.id}}" color="info">查看</v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+          </div>
+        </v-list>
+      </v-card>
+    </v-flex>
+  </v-layout>
+    <v-layout v-if="accesstoken" class="lists" v-show="activeTab === 'readed'">
+      <v-flex row>
+        <p class="text-md-center text-xs-center" v-if="!readed_messages.length">暂无消息</p>
+      </v-flex>
+    </v-layout>
 </div>
 </template>
 
@@ -49,9 +82,20 @@ import marked from 'marked'
 export default {
   data() {
     return {
+      dialog:true,
       activeTab: 'unread',
+      active: null,
       accesstoken: '',
       count: null,
+      tabs: [{
+          tag: 'unread',
+          title: '未读消息'
+        },
+        {
+          tag: 'readed',
+          title: '已读消息'
+        }
+      ],
       unread_messages: [],
       readed_messages: []
     }
@@ -63,12 +107,10 @@ export default {
     getMessages() {
       let self = this;
       let url = this.$store.state.svrUrl + 'messages?accesstoken=' + this.accesstoken;
-      this.axios.get(url).then(function(response) {
+      this.$ajax.get(url).then(function(response) {
         self.unread_messages = response.data.data.hasnot_read_messages;
         self.readed_messages = response.data.data.has_read_messages;
-      }).catch(function(err) {
-        console.log(err)
-      });
+      }).catch(function(err) {});
     },
     markdownChange(val) {
       return marked(val);
@@ -78,6 +120,7 @@ export default {
     this.$store.dispatch('changeTabValue', '消息');
     this.accesstoken = localStorage.getItem("accesstoken");
     if (this.accesstoken) {
+      this.dialog = false;
       this.getMessages();
     }
   }

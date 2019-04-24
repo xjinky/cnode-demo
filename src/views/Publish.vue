@@ -1,56 +1,38 @@
-/*
- * @Author: fish119 
- * @Date: 2017-05-22 14:20:40 
- * @Last Modified by: fish119
- * @Last Modified time: 2017-05-22 15:02:31
- */
 <template>
 <div class="content">
   <main>
-    <v-select-field class="text" v-model="list" :labelFocusClass="['label-foucs']" label="选择板块">
-      <v-menu-item v-for="text,index in lists" :key="index" :value="index" :title="text" />
-    </v-select-field>
-    <v-text-field v-model="title" class="text" label="标题" hintText="标题字数 10字以上" />
-    <v-text-field v-model="content" class="text text-content" hintText="输入文本，支持markdown格式" multiLine :rows="5" :underlineShow="false" />
-    <v-raised-button @click="pubTopic" label="发布话题" class="vueco-btn" icon="near_me" primary/>
+    <v-select :items="lists" label="分类"></v-select>
+    <v-text-field v-model="title" label="标题" placeholder="标题字数 10字以上" />
+    <v-textarea v-model="content" placeholder="输入文本，支持markdown格式" solo :rows="5" :underlineShow="false" />
+    <v-btn @click="pubTopic" class="info">发布话题</v-btn>
   </main>
   <!--登录提示-->
   <v-layout row justify-center>
-    <v-btn color="primary" dark @click.stop="dialog = true">
-      提示信息
-    </v-btn>
-
     <v-dialog v-model="dialog" max-width="600">
       <v-card>
         <v-card-title class="headline">提示信息</v-card-title>
-
-        <v-card-text>请先登录
-        </v-card-text>
-
+        <v-card-text>请先登录</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn color="green darken-1" flat="flat" to="/">
-            取消
-          </v-btn>
-
-          <v-btn color="green darken-1" flat="flat" to="/person">
-            确定
-          </v-btn>
+          <v-btn color="green darken-1" flat="flat" to="/">取消</v-btn>
+          <v-btn color="green darken-1" flat="flat" to="/person">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-layout>
-  <v-dialog :open="!accesstoken" title="提示：">
-    请先登录
-    <mu-flat-button slot="actions" primary to="/" label="取消" />
-    <mu-flat-button slot="actions" primary to="/person" label="确定" />
-  </v-dialog>
   <!--发布提示-->
-  <mu-dialog :open="publish" title="提示：">
-    {{tips}}
-    <mu-flat-button slot="actions" primary @click="close" label="确定" />
-  </mu-dialog>
+  <v-layout row justify-center>
+    <v-dialog v-model="publish" max-width="600">
+      <v-card>
+        <v-card-title class="headline">提示信息</v-card-title>
+        <v-card-text>{{tips}}</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat="flat" to="/">好的</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-layout>
 </div>
 </template>
 
@@ -66,9 +48,9 @@ export default {
       title: '',
       content: '',
       publish: false,
-      tips: '请正确输入内容',
+      tips: '发布接口已关闭,请谅解！',
       tab: '',
-      dialog: false
+      dialog: true //默认弹出登录提示框，用户未登录
     }
   },
   methods: {
@@ -109,6 +91,9 @@ export default {
   },
   created() {
     this.accesstoken = localStorage.getItem("accesstoken");
+    if (this.accesstoken) {
+      this.dialog = false
+    }
   },
   mounted() {
     this.$store.dispatch('changeTabValue', '发布');
