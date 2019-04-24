@@ -20,8 +20,7 @@
       </v-flex>
       <v-flex xs4 sm8>
         <span>
-            <v-checkbox
-              @change="favorTopic"
+            <v-checkbox @change="favorTopic"
               v-if="accesstoken"
               v-model="favorite"
               :label="favorite_txt"
