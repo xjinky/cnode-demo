@@ -2,24 +2,24 @@
 <div>
   <main v-if="isLogin">
     <!-- 个人信息 -->
-    <v-layout row>
-      <v-flex shrink>
-        <img :src="user_info.avatar_url" alt="user">
-      </v-flex>
-      <v-flex grow>
-        <v-layout row wrap>
-          <v-flex xs12 sm12 md12>
-            <v-card-text>
-              <p>用户名：{{user_info.loginname}}</p>
-              <p>积分：{{user_info.score}}</p>
-              <p>注册时间：{{user_info.create_at | time_ago}}
-                <v-btn @click="logout" color="secondary">退出登录</v-btn>
-              </p>
-            </v-card-text>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
+      <v-layout row justify-space-between>
+        <v-flex shrink>
+          <img :src="user_info.avatar_url" alt="user">
+        </v-flex>
+        <v-flex grow>
+          <v-layout row wrap>
+            <v-flex xs12 sm12 md12>
+              <v-card-text>
+                <p>用户名：{{user_info.loginname}}</p>
+                <p>积分：{{user_info.score}}</p>
+                <p>注册时间：{{user_info.create_at | time_ago}}
+                  <v-btn @click="logout" color="secondary">退出登录</v-btn>
+                </p>
+              </v-card-text>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
 
     <!-- 最近主题、回复、收藏 -->
     <v-layout row>
@@ -74,8 +74,6 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <!-- 退出登录按钮 -->
-
   </main>
 
   <main v-else>

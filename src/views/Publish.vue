@@ -14,8 +14,8 @@
         <v-card-text>请先登录</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat="flat" to="/">取消</v-btn>
-          <v-btn color="green darken-1" flat="flat" to="/person">确定</v-btn>
+          <v-btn color="cyan darken-1" flat="flat" to="/">取消</v-btn>
+          <v-btn color="cyan darken-1" flat="flat" to="/person">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

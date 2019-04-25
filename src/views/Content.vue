@@ -34,7 +34,7 @@
   <!-- 评论区 -->
   <v-layout style="padding-bottom:60px;" v-if="data.replies.length">
     <v-flex xs12 sm12>
-      <v-list>
+      <v-list subheader>
         <v-subheader inset>{{data.replies.length}}条回复</v-subheader>
         <div v-for="(item,index) in data.replies" :key="index">
           <v-list-tile avatar>
@@ -43,7 +43,8 @@
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <span>{{item.author.loginname}}&nbsp;&nbsp;{{index+1}}楼 • {{item.create_at | datefmt('YYYY-MM-DD HH:mm:ss')}}</span>
+              <!-- <span>{{index+1}}楼 • {{item.create_at | datefmt('YYYY-MM-DD HH:mm:ss')}}</span> -->
+              <span>{{item.author.loginname}}&nbsp;&nbsp;</span>
               <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
             </v-list-tile-content>
 
@@ -63,7 +64,6 @@
       </v-list>
       <p class="text-md-center text-xs-center" style="padding-top:1rem;">已经到底了啊</p>
     </v-flex>
-    <v-flex></v-flex>
   </v-layout>
   <!-- 添加回复区-->
   <v-container fluid grid-list-md style="padding-bottom:100px;display:none;">
@@ -140,7 +140,6 @@ export default {
             content: that.reply
           })
           .then(function(res) {
-            console.log(res);
             if (res.status == 200 && res.data.success == true) {
               that.showReplyMsg(that, "回复成功");
               that.getTopic();
@@ -174,7 +173,6 @@ export default {
         .get(this.$store.state.svrUrl + "topic_collect/" + that.loginname)
         .then(function(response) {
           // 获取收藏主题数组
-          console.log(response);
           let arr = response.data.data;
           //本页主题id
           let collect_id = that.data.id;

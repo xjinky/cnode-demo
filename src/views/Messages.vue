@@ -13,8 +13,8 @@
         <v-card-text>请先登录</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" flat="flat" to="/">取消</v-btn>
-          <v-btn color="green darken-1" flat="flat" to="/person">确定</v-btn>
+          <v-btn color="cyan darken-1" flat="flat" to="/">取消</v-btn>
+          <v-btn color="cyan darken-1" flat="flat" to="/person">确定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -58,7 +58,7 @@
                 <v-list-tile-title v-html="item.author.loginname"></v-list-tile-title>
                 <!-- <h2 v-if="item.reply.content" v-html="markdownChange(item.reply.content)"></h2> -->
                 <!-- <h2 class="text-md-center" v-if="!item.reply.content">此内容已被作者删除</h2> -->
-                <p class="text-md-center">来自：《{{item.topic.title}}》</p>
+                <v-list-tile-sub-title v-html="item.topic.title"></v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-btn block :to="{path:'/content',query:{id:item.topic.id}}" color="info">查看</v-btn>

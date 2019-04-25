@@ -1,46 +1,80 @@
 <template>
-  <div class="content">
-    <main>
-      <!-- 个人信息 -->
-      <img :src="user_info.avatar_url" alt="user">
-      <span class="name">{{user_info.loginname}}</span>
-      <div class="timer">
-        <span>积分：{{user_info.score}}</span>
-        <span>注册时间：{{user_info.create_at | time_ago}}</span>
-      </div>
-      <!-- 最近主题、回复、收藏 -->
-      <section class="info_list">
-        <mu-list>
-          <!--最近主题-->
-          <mu-list-item class="list" v-if="user_info.recent_topics" title="最近主题" toggleNested :open="false">
-            <mu-icon class="icon" slot="left" value="insert_drive_file" />
-            <mu-list-item :to="{path:'/content',query:{id:item.id}}" v-for="item in user_info.recent_topics" :key="item.id" slot="nested" :title="item.title">
-              <mu-icon class="icon" slot="left" value="description" />
-            </mu-list-item>
-            <span class="count">{{user_info.recent_topics.length}}个</span>
-          </mu-list-item>
-          <!--最近回复-->
-          <mu-list-item class="list" v-if="user_info.recent_replies" title="最近回复" toggleNested :open="false">
-            <mu-icon class="icon" slot="left" value="drafts" />
-            <mu-list-item :to="{path:'/content',query:{id:item.id}}" v-for="item in user_info.recent_replies" :key="item.id" slot="nested" :title="item.title">
-              <mu-icon class="icon" slot="left" value="insert_comment" />
-            </mu-list-item>
-            <span class="count">{{user_info.recent_replies.length}}个</span>
-          </mu-list-item>
-          <!--最近收藏-->
-          <mu-list-item class="list" v-if="user_info.collect_topics" title="收藏主题" toggleNested :open="false">
-            <mu-icon class="icon" slot="left" value="folder" />
-            <mu-list-item :to="{path:'/content',query:{id:item.id}}" v-for="item in user_info.collect_topics" :key="item.id" slot="nested" :title="item.title">
-              <mu-icon class="icon" slot="left" value="folder_open" />
-            </mu-list-item>
-            <span class="count">{{user_info.collect_topics.length}}个</span>
-          </mu-list-item>
-        </mu-list>
-      </section>
-      <!-- 退出登录按钮 -->
-      <mu-raised-button @click="goBack" label="返 回" class="vueco-btn" primary/>
-    </main>
-  </div>
+<div class="content">
+  <main>
+    <!-- 个人信息 -->
+    <v-layout row >
+      <v-flex shrink justify-space-around>
+        <img :src="user_info.avatar_url" alt="user">
+      </v-flex>
+      <v-flex grow>
+        <v-layout row wrap>
+          <v-flex xs12 sm12 md12>
+            <v-card-text>
+              <p>用户名：{{user_info.loginname}}</p>
+              <p>积分：{{user_info.score}}</p>
+              <p>注册时间：{{user_info.create_at | time_ago}}
+                <v-btn @click="logout" color="secondary">退出登录</v-btn>
+              </p>
+            </v-card-text>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+    <!-- 最近主题、回复、收藏 -->
+    <v-layout row wrap>
+      <v-flex xs12 sm12>
+        <v-card>
+          <v-list>
+            <v-subheader>最近创建的话题：</v-subheader>
+            <v-divider></v-divider>
+            <v-layout v-for="(item, index) in user_info.recent_topics" :key="index">
+              <v-list-tile avatar>
+                <v-list-tile-avatar>
+                  <img :src="user_info.avatar_url">
+                </v-list-tile-avatar>
+                <router-link style="text-decoration:none;color:#000;" :to="{path:'/content',query:{id:item.id}}">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </router-link>
+              </v-list-tile>
+            </v-layout>
+            <v-subheader>最近参与的话题：</v-subheader>
+            <v-divider></v-divider>
+            <v-layout v-for="(item, index) in user_info.recent_replies" :key="index">
+              <v-list-tile avatar>
+                <v-list-tile-avatar>
+                  <img :src="user_info.avatar_url">
+                </v-list-tile-avatar>
+                <router-link style="text-decoration:none;color:#000;" :to="{path:'/content',query:{id:item.id}}">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </router-link>
+              </v-list-tile>
+            </v-layout>
+            <v-subheader>最近收藏的话题：</v-subheader>
+            <v-layout v-for="(item, index) in user_info.collect_topics" :key="index">
+              <v-list-tile avatar>
+                <v-list-tile-avatar>
+                  <img :src="user_info.avatar_url">
+                </v-list-tile-avatar>
+                <router-link style="text-decoration:none;color:#000;" :to="{path:'/content',query:{id:item.id}}">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </router-link>
+              </v-list-tile>
+            </v-layout>
+          </v-list>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </main>
+</div>
 </template>
 <script>
 export default {
@@ -53,13 +87,19 @@ export default {
     getUser() {
       let that = this
       let author_name = this.$route.query.user
-      let url = 'https://www.vue-js.com/api/v1' + this.$route.path;
-      this.axios.get(url).then(function (response) {
+      let url = 'https://cnodejs.org/api/v1' + this.$route.path;
+      this.$ajax.get(url).then(function(response) {
         that.user_info = response.data.data
       })
     },
     goBack() {
       this.$router.go(-1);
+    },
+    logout() {
+      localStorage.setItem('accesstoken', '')
+      localStorage.setItem('user_id', '')
+      localStorage.setItem('loginname', '')
+      this.isLogin = false;
     }
   },
   created() {

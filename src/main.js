@@ -8,13 +8,20 @@ import router from './router/index'
 import filters from './filter/index'
 import store from './store'
 import axios from 'axios'
+import colors from 'vuetify/es5/util/colors'
 import infiniteScroll from 'vue-infinite-scroll'
 
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 
-Vue.use(Vuetify,{
-  iconfont:"mdi"
+Vue.use(Vuetify, {
+  iconfont: "mdi",
+  theme: {
+    primary: colors.purple,
+    secondary: colors.grey.darken1,
+    accent: colors.shades.black,
+    error: colors.red.accent3
+  }
 })
 Vue.use(VueResource)
 Vue.use(VueRouter)

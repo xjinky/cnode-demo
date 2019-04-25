@@ -36,7 +36,7 @@
     </v-flex>
   </v-layout>
   <div class="text-xs-center text-md-center" style="padding-top:30px;padding-bottom:80px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="0">
-    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+    <v-progress-circular :size="50" color="cyan" indeterminate></v-progress-circular>
   </div>
 </div>
 </template>
