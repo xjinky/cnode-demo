@@ -46,8 +46,8 @@ import appHeader from "../components/Header";
 import bottomNavigation from "../components/BottomNavigation";
 export default {
   components: {
-    appHeader,
-    bottomNavigation
+    // appHeader,
+    // bottomNavigation
   },
   data() {
     return {

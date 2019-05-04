@@ -14,12 +14,13 @@ npm run build
 
 git init
 git add -A
-git commit -m 'deploy-2'
+git commit -m '样式调整/关闭eslint检验'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:xjinky/xjinky.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f https://github.com/xjinky/cnode-demo.git master
+# git push -f https://github.com/xjinky/cnode-demo.git master:gh-pages    # 提交到gh-pages分支
+git push -f https://github.com/xjinky/cnode-demo.git master    # 提交到master分支
 
 cd -
