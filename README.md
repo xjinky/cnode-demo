@@ -1,30 +1,24 @@
-# my-project
+# cnode简易客户端
 
-## Project setup
+## 安装
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 启动服务
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 项目打包
 ```
 npm run build
 ```
 
-### Run your tests
+### 项目测试
 ```
 npm run test
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# cnode-demo
+### 体验地址
+[cnode-demo](https://yzizn.com/cnode-demo)
