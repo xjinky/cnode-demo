@@ -14,7 +14,7 @@ npm run build
 
 git init
 git add -A
-git commit -m '提交到master分支/新电脑提交更改'
+git commit -m '提交到master分支/Access Token注明如何获取'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:xjinky/xjinky.github.io.git master

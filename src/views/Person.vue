@@ -85,6 +85,7 @@
         <v-flex xs12>
           <v-btn @click="login" block color="info">登录</v-btn>
         </v-flex>
+        <blockquote class="blockquote">Tips：Access Token的获取-需要现在web端登录CNode社区，然后进入设置页面，最底下会有Access Token！</blockquote>
       </v-layout>
     </v-container>
   </main>
