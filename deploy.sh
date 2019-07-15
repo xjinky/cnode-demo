@@ -14,7 +14,7 @@ npm run build
 
 git init
 git add -A
-git commit -m '修改readme文件'
+git commit -m '修改readme文件-1'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:xjinky/xjinky.github.io.git master
