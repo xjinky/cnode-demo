@@ -1,5 +1,8 @@
 # CNode简易客户端
 
+## 移动端体验
+![](https://i.bmp.ovh/imgs/2019/07/9713c4db4eba1f0b.png)
+
 ## 技术栈
 Vue + Vue-Router + Vuex + Vuetify
 
