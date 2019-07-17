@@ -1,81 +1,85 @@
 <template>
-<div class="content">
-  <!--标题区-->
-  <header class="md_header">
-    <h2>
-      <span class="tag" v-if="data.top">置顶</span>
-      <span class="tag" v-else-if="data.good">精华</span> {{data.title}}
-    </h2>
-
-    <v-layout row align-center>
-      <v-flex xs8 sm4>
-        <span>
+  <div class="content">
+    <!--标题区-->
+    <header class="md_header">
+      <h2>
+        <span class="tag" v-if="data.top">置顶</span>
+        <span class="tag" v-else-if="data.good">精华</span>
+        {{data.title}}
+      </h2>
+      <v-layout row align-center>
+        <v-flex xs8 sm4>
+          <span>
             <v-avatar size="22">
               <img :src="data.author.avatar_url">
             </v-avatar>
             {{ data.author.loginname }}&nbsp;
           </span>
-        <span>发布于 {{data.create_at | time_ago('YYYY-MM-DD HH:mm:ss')}}&nbsp;&nbsp;</span>
-        <span>{{ data.visit_count }}次浏览&nbsp;</span>
-      </v-flex>
-      <v-flex xs4 sm8>
-        <span>
-            <v-checkbox @change="favorTopic"
+          <span>发布于 {{data.create_at | time_ago('YYYY-MM-DD HH:mm:ss')}}&nbsp;&nbsp;</span>
+          <span>{{ data.visit_count }}次浏览&nbsp;</span>
+        </v-flex>
+        <v-flex xs4 sm8>
+          <span>
+            <v-checkbox
+              @change="favorTopic"
               v-if="accesstoken"
               v-model="favorite"
               :label="favorite_txt"
             />
           </span>
+        </v-flex>
+      </v-layout>
+    </header>
+    <!-- 内容区 -->
+    <article class="md_content" v-html="data.content"></article>
+    <!-- 评论区 -->
+    <v-layout style="padding-bottom:60px;" v-if="data.replies.length">
+      <v-flex xs12 sm12>
+        <v-list subheader>
+          <v-subheader inset>{{data.replies.length}}条回复</v-subheader>
+          <div v-for="(item,index) in data.replies" :key="index">
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+                <router-link
+                  :to="'/user/'+item.author.loginname"
+                  :src="item.author.avatar_url"
+                  tag="img"
+                  alt="user"
+                ></router-link>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <!-- <span>{{index+1}}楼 • {{item.create_at | datefmt('YYYY-MM-DD HH:mm:ss')}}</span> -->
+                <span>{{item.author.loginname}}&nbsp;&nbsp;</span>
+                <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn icon ripple @click="like(index)" v-if="item.ups.length && !accesstoken">
+                  <v-icon small color="grey lighten-1">thumb_up</v-icon>
+                  <span>{{item.ups.length}}</span>
+                </v-btn>
+                <v-btn icon ripple @click="like(index)" v-if="accesstoken">
+                  <v-icon small color="grey lighten-1">thumb_up</v-icon>
+                  <span>{{item.ups.length}}</span>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-divider></v-divider>
+          </div>
+        </v-list>
+        <p class="text-md-center text-xs-center" style="padding-top:1rem;">已经到底了啊</p>
       </v-flex>
     </v-layout>
-  </header>
-  <!-- 内容区 -->
-  <article class="md_content" v-html="data.content"></article>
-  <!-- 评论区 -->
-  <v-layout style="padding-bottom:60px;" v-if="data.replies.length">
-    <v-flex xs12 sm12>
-      <v-list subheader>
-        <v-subheader inset>{{data.replies.length}}条回复</v-subheader>
-        <div v-for="(item,index) in data.replies" :key="index">
-          <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <router-link :to="'/user/'+item.author.loginname" :src="item.author.avatar_url" tag="img" alt="user"></router-link>
-            </v-list-tile-avatar>
-
-            <v-list-tile-content>
-              <!-- <span>{{index+1}}楼 • {{item.create_at | datefmt('YYYY-MM-DD HH:mm:ss')}}</span> -->
-              <span>{{item.author.loginname}}&nbsp;&nbsp;</span>
-              <v-list-tile-sub-title v-html="item.content"></v-list-tile-sub-title>
-            </v-list-tile-content>
-
-            <v-list-tile-action>
-              <v-btn icon ripple @click="like(index)" v-if="item.ups.length && !accesstoken">
-                <v-icon small color="grey lighten-1">thumb_up</v-icon>
-                <span>{{item.ups.length}}</span>
-              </v-btn>
-              <v-btn icon ripple @click="like(index)" v-if="accesstoken">
-                <v-icon small color="grey lighten-1">thumb_up</v-icon>
-                <span>{{item.ups.length}}</span>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-        </div>
-      </v-list>
-      <p class="text-md-center text-xs-center" style="padding-top:1rem;">已经到底了啊</p>
-    </v-flex>
-  </v-layout>
-  <!-- 添加回复区-->
-  <v-container fluid grid-list-md style="padding-bottom:100px;display:none;">
-    <v-layout row wrap>
-      <v-subheader>添加回复</v-subheader>
-      <v-flex xs12>
-        <v-textarea placeholder="请输入回复内容.." v-model="reply" outline name="input-7-4"></v-textarea>
-        <v-btn @click="submit_reply" color="info">回复</v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
-</div>
+    <!-- 添加回复区-->
+    <v-container fluid grid-list-md style="padding-bottom:100px;display:none;">
+      <v-layout row wrap="">
+        <v-subheader>添加回复</v-subheader>
+        <v-flex xs12>
+          <v-textarea placeholder="请输入回复内容.." v-model="reply" outline name="input-7-4"></v-textarea>
+          <v-btn @click="submit_reply" color="info">回复</v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -104,6 +108,7 @@ export default {
     getTopic() {
       const id = this.$route.query.id;
       let that = this;
+      that.data.loading = true;
       let url = this.$store.state.svrUrl + "/topic/" + id;
       this.$ajax
         .get(url)
@@ -188,9 +193,10 @@ export default {
       this.$ajax
         .post(
           this.$store.state.svrUrl +
-          "reply/" +
-          that.data.replies[index].id +
-          "/ups", {
+            "reply/" +
+            that.data.replies[index].id +
+            "/ups",
+          {
             accesstoken: that.accesstoken
           }
         )
@@ -208,9 +214,9 @@ export default {
     },
     //显示/关闭 对评论进行回复的对话框
     showReplyToComment(index, isShow) {
-      this.single_reply = isShow ?
-        "@" + this.data.replies[index].author.loginname + " " :
-        "";
+      this.single_reply = isShow
+        ? "@" + this.data.replies[index].author.loginname + " "
+        : "";
       let arr = this.data.replies;
       arr[index].reply_show = isShow;
       this.$set(arr, index, arr[index]);
@@ -250,13 +256,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.v-progress-circular {
+  margin: 1rem;
+}
+
 .favorite-box .mu-checkbox-label {
   color: #009688;
 }
-</style>
 
-<style scoped>
 .content {
   justify-content: flex-start;
 }
@@ -371,14 +379,13 @@ export default {
   border: 0;
 }
 
-
 /*评论区样式*/
 
-.replies>li {
+.replies > li {
   padding: 1rem;
 }
 
-.replies>li:first-child {
+.replies > li:first-child {
   background-color: #f6f6f6;
 }
 
@@ -387,39 +394,39 @@ export default {
   border-top: 1px solid #f0f0f0;
 }
 
-.reply>.msg {
+.reply > .msg {
   display: flex;
   justify-content: space-between;
   padding-bottom: 1rem;
   flex-wrap: nowrap;
 }
 
-.reply>p {
+.reply > p {
   margin-bottom: 2rem;
 }
 
-.author>img {
+.author > img {
   width: 3rem;
   height: 3rem;
   vertical-align: top;
 }
 
-.author>.name {
+.author > .name {
   color: #666;
   font-weight: 700;
 }
 
-.author>.timer {
+.author > .timer {
   color: #08c;
 }
 
-.msg>.ups {
+.msg > .ups {
   display: flex;
   align-items: center;
   color: #009688;
 }
 
-.ups>span {
+.ups > span {
   margin-left: 0.5rem;
 }
 
