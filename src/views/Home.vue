@@ -3,7 +3,7 @@
   <v-toast style="bottom:50%;text-align: center;" v-if="toast" :message="toastMsg" @close="hideToast" />
   <v-tabs v-model="active" color="cyan" fixed-tabs dark slider-color="yellow">
     <v-layout justify-space-between>
-      <v-tab ripple v-for="(item,index) in items" :key="index" @change="handleTabChange(item.tag)"> {{ item.title }}</v-tab>
+      <v-tab ripple v-for="(item,index) in items" :key="index" @change="handleTabChange(item.tag)">{{ item.title }}</v-tab>
     </v-layout>
   </v-tabs>
   <v-layout row>
@@ -19,10 +19,13 @@
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title"></v-list-tile-title>
                   <span>
-                    <v-icon small>person</v-icon>&nbsp;{{item.author.loginname}}&nbsp;&nbsp;&nbsp;&nbsp;
-                    <v-icon small>remove_red_eye</v-icon>&nbsp;{{item.visit_count}}&nbsp;/&nbsp;
-                    <v-icon small>comment</v-icon>&nbsp;{{item.reply_count}}
-                  </span>
+                      <v-icon small>person</v-icon>
+                      &nbsp;{{item.author.loginname}}&nbsp;&nbsp;&nbsp;&nbsp;
+                      <v-icon small>remove_red_eye</v-icon>
+                      &nbsp;{{item.visit_count}}&nbsp;/&nbsp;
+                      <v-icon small>comment</v-icon>
+                      &nbsp;{{item.reply_count}}
+                    </span>
                 </v-list-tile-content>
                 <v-list-tile-action>
                   <span>{{item.create_at | time_ago('YYYY-MM-DD HH:mm:ss')}}</span>
@@ -35,7 +38,7 @@
       </v-card>
     </v-flex>
   </v-layout>
-  <div class="text-xs-center text-md-center" style="padding-top:30px;padding-bottom:80px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="0">
+  <div class="text-xs-center text-md-center" style="padding-top:20px;padding-bottom:80px;" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="0">
     <v-progress-circular :size="50" color="cyan" indeterminate></v-progress-circular>
   </div>
 </div>
@@ -52,27 +55,24 @@ export default {
   data() {
     return {
       items: [{
-          tag: 'all',
-          title: "全部",
-        }, {
-          tag: 'good',
+          tag: "all",
+          title: "全部"
+        },
+        {
+          tag: "good",
           title: "精华"
         },
-        // {
-        //   tag: 'weex',
-        //   title: "weex"
-        // },
         {
-          tag: 'share',
-          title: '分享'
+          tag: "share",
+          title: "分享"
         },
         {
-          tag: 'ask',
-          title: '问答'
+          tag: "ask",
+          title: "问答"
         },
         {
-          tag: 'job',
-          title: '招聘'
+          tag: "job",
+          title: "招聘"
         }
       ],
       activeTab: "all",
@@ -100,7 +100,12 @@ export default {
     },
     getTopics() {
       this.page = 1;
-      let url = this.$store.state.svrUrl + "topics?tab=" + this.activeTab + "&page=" + this.page;
+      let url =
+        this.$store.state.svrUrl +
+        "topics?tab=" +
+        this.activeTab +
+        "&page=" +
+        this.page;
       const self = this;
       self.refreshing = true;
       this.$ajax
@@ -121,7 +126,12 @@ export default {
     },
     loadMore() {
       this.page++;
-      let url = this.$store.state.svrUrl + "topics?tab=" + this.activeTab + "&page=" + this.page;
+      let url =
+        this.$store.state.svrUrl +
+        "topics?tab=" +
+        this.activeTab +
+        "&page=" +
+        this.page;
       this.busy = true;
       const self = this;
       self.loading = true;
@@ -143,7 +153,7 @@ export default {
             self.page--;
           });
         self.busy = false;
-      }, 1000)
+      }, 1000);
     },
     showToast(msg) {
       this.toastMsg = msg;
@@ -160,7 +170,7 @@ export default {
     toUser(val) {
       this.$router.push("/user/" + val);
     }
-  },
+  }
 };
 </script>
 

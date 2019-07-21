@@ -2,7 +2,7 @@
 <div class="content">
   <main>
     <!-- 个人信息 -->
-    <v-layout row >
+    <v-layout row>
       <v-flex shrink justify-space-around>
         <img :src="user_info.avatar_url" alt="user">
       </v-flex>
@@ -43,20 +43,6 @@
             <v-subheader>最近参与的话题：</v-subheader>
             <v-divider></v-divider>
             <v-layout v-for="(item, index) in user_info.recent_replies" :key="index">
-              <v-list-tile avatar>
-                <v-list-tile-avatar>
-                  <img :src="user_info.avatar_url">
-                </v-list-tile-avatar>
-                <router-link style="text-decoration:none;color:#000;" :to="{path:'/content',query:{id:item.id}}">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                    <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </router-link>
-              </v-list-tile>
-            </v-layout>
-            <v-subheader>最近收藏的话题：</v-subheader>
-            <v-layout v-for="(item, index) in user_info.collect_topics" :key="index">
               <v-list-tile avatar>
                 <v-list-tile-avatar>
                   <img :src="user_info.avatar_url">
