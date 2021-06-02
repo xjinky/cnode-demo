@@ -1,7 +1,7 @@
 # CNode简易客户端
 
 ## 移动端体验
-![二维码图片_6月2日11时29分46秒.png](https://i.loli.net/2021/06/02/ukVbgSGK47McI2d.png)
+![cnode.png](https://i.loli.net/2021/06/02/JR7jMrYoiK1QmfV.png)
 
 ## 技术栈
 Vue + Vue-Router + Vuex + Vuetify
