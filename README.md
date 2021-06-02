@@ -1,7 +1,7 @@
 # CNode简易客户端
 
 ## 移动端体验
-![](https://qr.api.cli.im/newqr/create?data=https%253A%252F%252Fxjinky.github.io.com%252Fcnode-demo&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&logoshape=no&size=260&kid=cliim&key=4a5e7579923f6081e4ce091a902141fb)
+![二维码图片_6月2日11时29分46秒.png](https://i.loli.net/2021/06/02/ukVbgSGK47McI2d.png)
 
 ## 技术栈
 Vue + Vue-Router + Vuex + Vuetify
